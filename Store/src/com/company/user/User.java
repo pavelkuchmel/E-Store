@@ -12,7 +12,7 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
-
+        this.basket = new Basket();
     }
 
     @Override
@@ -55,7 +55,11 @@ public class User {
     }
 
     public Basket getBasket() {
-        return basket;
+        return this.basket;
+    }
+
+    public int getBasketSize(){
+        return basket.basketSize();
     }
 
     public void setBasket(Basket basket) {

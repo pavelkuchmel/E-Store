@@ -31,7 +31,12 @@ public class Main extends Application{
     static Product p4 = new Product("Apple", 5.2, 4);
     static Product p5 = new Product("Watermelon", 22.0,5);
     static Product p6 = new Product("Cucumber", 7.0, 5);
-    static Product p7 = new Product("Potato", 2.5, 3);*/
+    static Product p7 = new Product("Potato", 2.5, 3);
+    static User l1 = new User("Login1", "Password");
+    static User l2 = new User("Login2", "Password");
+    static User l3 = new User("Login3", "Password");
+    static User l4 = new User("Login4", "Password");
+    static User l5 = new User("Login5", "Password");*/
 
     public static void main(String[] args) {
         launch(args);
@@ -39,7 +44,25 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) {
-        /*c1.addProduct(p1);
+
+        /*base.addUser(l1);
+        base.addUser(l2);
+        base.addUser(l3);
+        base.addUser(l4);
+        base.addUser(l5);
+
+        l1.getBasket().addProduct(p1);
+        l1.getBasket().addProduct(p2);
+        l2.getBasket().addProduct(p4);
+        l2.getBasket().addProduct(p6);
+        l3.getBasket().addProduct(p3);
+        l3.getBasket().addProduct(p1);
+        l4.getBasket().addProduct(p7);
+        l5.getBasket().addProduct(p1);
+        l5.getBasket().addProduct(p3);
+        l5.getBasket().addProduct(p4);
+
+        c1.addProduct(p1);
         c1.addProduct(p2);
         c1.addProduct(p3);
         c2.addProduct(p4);
@@ -50,8 +73,9 @@ public class Main extends Application{
         base.addCategories(c2);
         base.addCategories(c3);*/
 
-        base.readerFileCategories();
-        base.readerFileUsers();
+        base.readFileCategories();
+        base.readFileUsers();
+        base.readFileBaskets();
         TextField login = new TextField("Login");
         TextField password = new TextField("Password");
         login.setLayoutX(115.0);
@@ -141,6 +165,7 @@ public class Main extends Application{
     @Override
     public void stop() throws Exception {
         base.writeFileUsers();
+        base.writeFileBaskets();
         base.writeFileCategories();
         super.stop();
     }

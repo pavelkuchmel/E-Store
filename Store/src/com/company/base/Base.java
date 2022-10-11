@@ -13,32 +13,29 @@ public class Base {
     private ArrayList<Basket> baskets;
     private ArrayList<Categories> categories;
 
-    public void readerFileCategories(){
-        //ArrayList<Character> buffer = new ArrayList<>();
+    public void readFileBaskets(){
         StringBuilder buffer = new StringBuilder();
-        StringBuilder categoryName = new StringBuilder();
+        StringBuilder login = new StringBuilder();
         StringBuilder name = new StringBuilder();
         StringBuilder price = new StringBuilder();
         StringBuilder rating = new StringBuilder();
 
-        try(FileReader reader = new FileReader("E:\\JavaFXCode\\Store\\src\\com\\company\\base\\categories.txt"))
-        {
+        try (FileReader reader = new FileReader("E:\\JavaFXCode\\Store\\src\\com\\company\\base\\baskets.txt")) {
             int c;
-            while((c=reader.read())!=-1){
+            while ((c = reader.read()) != -1) {
 
                 //System.out.print((char)c);
-                buffer.append((char)c);
+                buffer.append((char) c);
 
             }
-            System.out.println(buffer);
+            //System.out.println(buffer);
 
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
         char sw = ' ';
-        for(int i = 0, j = 0; i < buffer.length(); i++){
-            if (buffer.charAt(i) == '@') {
+        for(int i = 0; i < buffer.length(); i++){
+            if (buffer.charAt(i) == '*') {
                 sw = buffer.charAt(i);
                 continue;
             }
@@ -55,19 +52,110 @@ public class Base {
                 continue;
             }
             if (buffer.charAt(i) == '>'){
-                addCategories(categoryName.toString());
-                System.out.println("categoryName: " + categoryName.toString());
-                System.out.println("name: " + name.toString());//categories.get(i).getProduct(i).setName(name.toString());
-                System.out.println("price: " + price.toString());//categories.get(i).getProduct(i).setPrice(Double.parseDouble(price.toString()));
-                System.out.println("rating: " + rating.toString());//categories.get(i).getProduct(i).setRating(Integer.parseInt(rating.toString()));
+                for (int l = 0; l < users.size(); l++){
+                    if (users.get(l).getLogin().equals(login.toString())) users.get(l).getBasket().addProduct(name.toString(), Double.parseDouble(price.toString()), Integer.parseInt(rating.toString()));
+                }
+                if (buffer.charAt(i+1) == '*')login.delete(0, login.length());
+                name.delete(0, name.length());
+                price.delete(0, price.length());
+                rating.delete(0, rating.length());
+                continue;
+
+            }
+            switch (sw){
+                case '*':
+                    login.append(buffer.charAt(i));
+                    break;
+                case '$':
+                    name.append(buffer.charAt(i));
+                    break;
+                case '%':
+                    price.append(buffer.charAt(i));
+                    break;
+                case '&':
+                    rating.append(buffer.charAt(i));
+                    break;
+            }
+        }
+    }
+
+    public void writeFileBaskets(){
+        try(FileWriter writer = new FileWriter("E:\\JavaFXCode\\Store\\src\\com\\company\\base\\baskets.txt", false))
+        {
+            for (int i = 0; i < users.size(); i++){
+                writer.write('*' + users.get(i).getLogin());
+                for (int j = 0; j < users.get(i).getBasketSize(); j++){
+                    writer.write(users.get(i).getBasket().getProduct(j).toString());
+                }
+            }
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void readFileCategories() {
+        StringBuilder buffer = new StringBuilder();
+        StringBuilder categoryName = new StringBuilder();
+        StringBuilder name = new StringBuilder();
+        StringBuilder price = new StringBuilder();
+        StringBuilder rating = new StringBuilder();
+
+        try (FileReader reader = new FileReader("E:\\JavaFXCode\\Store\\src\\com\\company\\base\\categories.txt")) {
+            int c;
+            while ((c = reader.read()) != -1) {
+
+                //System.out.print((char)c);
+                buffer.append((char) c);
+
+            }
+            //System.out.println(buffer);
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        char sw = ' ';
+        int j = 0;
+        int k = 0;
+        for(int i = 0; i < buffer.length(); i++){
+            if (buffer.charAt(i) == '@') {
+                sw = buffer.charAt(i);
+                if (i != 0)j++;
+                continue;
+            }
+            if (buffer.charAt(i) == '$') {
+                sw = buffer.charAt(i);
+                continue;
+            }
+            if (buffer.charAt(i) == '%') {
+                sw = buffer.charAt(i);
+                continue;
+            }
+            if (buffer.charAt(i) == '&') {
+                sw = buffer.charAt(i);
+                continue;
+            }
+            if (buffer.charAt(i) == '>'){
+
+                if(j == k){
+                    addCategories(categoryName.toString());
+                    k++;
+                }
+                /*System.out.println("categoryName: " + categoryName.toString());
+                System.out.println("name: " + name);//categories.get(i).getProduct(i).setName(name.toString());
+                System.out.println("price: " + price);//categories.get(i).getProduct(i).setPrice(Double.parseDouble(price.toString()));
+                System.out.println("rating: " + rating);//categories.get(i).getProduct(i).setRating(Integer.parseInt(rating.toString()));
+                System.out.println("category.size: " + categories.size());
                 System.out.println(categories);
+                System.out.println("j: "+ j);*/
                 categories.get(j).addProduct(name.toString(), Double.parseDouble(price.toString()), Integer.parseInt(rating.toString()));
                 categoryName.delete(0, categoryName.length());
                 name.delete(0, name.length());
                 price.delete(0, price.length());
                 rating.delete(0, rating.length());
-                j++;
                 continue;
+
             }
             switch (sw){
                 case '@':
@@ -84,6 +172,7 @@ public class Base {
                     break;
             }
         }
+        //System.out.println("categories.get(1).getProduct(0): " + categories.get(1).getProduct(0));
     }
     public void writeFileCategories(){
         try(FileWriter writer = new FileWriter("E:\\JavaFXCode\\Store\\src\\com\\company\\base\\categories.txt", false))
@@ -160,7 +249,7 @@ public class Base {
         }
     }
 
-    public void readerFileUsers(){
+    public void readFileUsers(){
         ArrayList<Character> buffer = new ArrayList<>();
         StringBuilder login = new StringBuilder();
         StringBuilder password = new StringBuilder();

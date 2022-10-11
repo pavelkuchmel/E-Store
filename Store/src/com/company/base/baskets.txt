@@ -1,0 +1,1 @@
+*Login1$Meat%10.0&5>$Soup%15.5&4>*Login2$Apple%5.2&4>$Cucumber%7.0&5>*Login3$HotDog%28.2&2>$Meat%10.0&5>*Login4$Potato%2.5&3>*Login5$Meat%10.0&5>$HotDog%28.2&2>$Apple%5.2&4>
